@@ -1,0 +1,56 @@
+# Nova AI Assistant Backend - Core Dependencies
+
+# FastAPI & Web Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# LLM & Orchestration
+langgraph==0.0.24
+langchain==0.1.0
+groq==0.4.2
+
+# Speech & Language
+faster-whisper==0.10.0
+pyttsx3==2.90
+
+# HTTP & Network
+requests==2.31.0
+python-dotenv==1.0.0
+
+# Browser Automation (Optional - for Playwright features)
+playwright==1.40.0
+
+# Google Cloud Integration (Optional - for Gmail/Calendar)
+google-auth-oauthlib==1.2.0
+google-auth-httplib2==0.2.0
+google-api-python-client==2.107.0
+
+# Twilio Integration (Optional - for SMS)
+twilio==8.10.0
+
+# Database & Persistence
+sqlite3  # Built-in with Python
+
+# Task Scheduling
+APScheduler==3.10.4
+
+# Audio Processing
+pyaudio==0.2.13
+
+# Wake Word Detection (Optional)
+pvporcupine==3.0.1
+
+# Text-to-Speech (Alternative to pyttsx3)
+elevenlabs==0.2.28
+
+# Utilities & Logging
+python-json-logger==2.0.7
+colorlog==6.8.0
+
+# Development & Testing (Optional)
+pytest==7.4.3
+black==23.12.0
+flake8==6.1.0
+mypy==1.7.0

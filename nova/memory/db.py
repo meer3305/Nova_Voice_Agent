@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS memories (
 
 CREATE TABLE IF NOT EXISTS actions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id TEXT,
     user_input TEXT NOT NULL,
     intent TEXT,
     result_summary TEXT,
@@ -97,11 +98,11 @@ class MemoryDB:
             ).fetchall()
         return [MemoryRecord(category=r["category"], key=r["key"], value=json.loads(r["value"])) for r in rows]
 
-    def log_action(self, user_input: str, intent: str, result_summary: str) -> None:
+    def log_action(self, user_input: str, intent: str, result_summary: str, user_id: Optional[str] = None) -> None:
         with self._conn() as conn:
             conn.execute(
-                "INSERT INTO actions (user_input, intent, result_summary, created_at) VALUES (?, ?, ?, ?)",
-                (user_input, intent, result_summary, datetime.utcnow().isoformat()),
+                "INSERT INTO actions (user_id, user_input, intent, result_summary, created_at) VALUES (?, ?, ?, ?, ?)",
+                (user_id, user_input, intent, result_summary, datetime.utcnow().isoformat()),
             )
 
     def recent_actions(self, limit: int = 10) -> List[Dict[str, Any]]:
@@ -110,6 +111,21 @@ class MemoryDB:
                 "SELECT user_input, intent, result_summary, created_at FROM actions ORDER BY id DESC LIMIT ?",
                 (limit,),
             ).fetchall()
+        return [dict(row) for row in rows]
+
+    def get_actions(self, user_id: Optional[str] = None, limit: int = 50) -> List[Dict[str, Any]]:
+        """Get action history, optionally filtered by user_id."""
+        with self._conn() as conn:
+            if user_id:
+                rows = conn.execute(
+                    "SELECT id, user_input, intent, result_summary, created_at FROM actions WHERE user_id=? ORDER BY id DESC LIMIT ?",
+                    (user_id, limit),
+                ).fetchall()
+            else:
+                rows = conn.execute(
+                    "SELECT id, user_input, intent, result_summary, created_at FROM actions ORDER BY id DESC LIMIT ?",
+                    (limit,),
+                ).fetchall()
         return [dict(row) for row in rows]
 
     def build_context(self) -> Dict[str, Any]:

@@ -6,7 +6,14 @@ from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
 
 
-RISKY_TOOLS = {"gmail.send_email", "sms.send_sms", "order.place_order"}
+RISKY_TOOLS = {
+    "gmail.send_email",
+    "gmail.draft_email",
+    "sms.send_sms",
+    "order.place_order",
+    "order.prepare_order_sync",
+    "linkedin.prepare_post_sync",
+}
 
 
 @dataclass

@@ -1,0 +1,9 @@
+2026-02-26 01:57:46,150 | INFO | __main__ | Starting Nova REST API Server
+2026-02-26 01:57:46,150 | INFO | __main__ | API will be available at http://0.0.0.0:8001
+2026-02-26 01:57:46,150 | INFO | __main__ | Documentation at http://0.0.0.0:8001/docs
+2026-02-26 01:57:48,950 | INFO | nova.memory.db | Memory database initialized at nova.db
+2026-02-26 01:57:48,966 | ERROR | fastapi | Form data requires "python-multipart" to be installed. 
+You can install "python-multipart" with: 
+
+pip install python-multipart
+

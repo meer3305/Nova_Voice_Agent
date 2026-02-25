@@ -22,12 +22,16 @@ class PlanSchema(BaseModel):
 
 ALLOWED_TOOLS = {
     "gmail.send_email",
+    "gmail.draft_email",
     "gmail.read_unread_important",
     "calendar.create_event",
     "calendar.upcoming_events",
+    "calendar.delete_event",
     "sms.send_sms",
     "sentiment.analyze_text",
     "order.place_order",
+    "order.prepare_order_sync",
+    "linkedin.prepare_post_sync",
 }
 
 

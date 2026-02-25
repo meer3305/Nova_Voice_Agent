@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field
 
 from nova.mcp_server.calendar_tool import CalendarTool
 from nova.mcp_server.gmail_tool import GmailTool
+from nova.mcp_server.linkedin_tool import LinkedInTool
 from nova.mcp_server.order_tool import OrderTool
 from nova.mcp_server.sentiment_tool import SentimentTool
 from nova.mcp_server.sms_tool import SMSTool
@@ -23,11 +24,12 @@ TOOLS = {
     "sms": SMSTool(),
     "sentiment": SentimentTool(),
     "order": OrderTool(),
+    "linkedin": LinkedInTool(),
 }
 
 
 class ToolRequest(BaseModel):
-    tool: Literal["gmail", "calendar", "sms", "sentiment", "order"]
+    tool: Literal["gmail", "calendar", "sms", "sentiment", "order", "linkedin"]
     action: str
     args: Dict[str, Any] = Field(default_factory=dict)
 
@@ -41,6 +43,9 @@ def health() -> Dict[str, str]:
 def execute_tool(req: ToolRequest) -> Dict[str, Any]:
     logger.info("Tool request: %s.%s", req.tool, req.action)
     tool_obj = TOOLS.get(req.tool)
+    if tool_obj is None:
+        raise HTTPException(status_code=400, detail=f"Unknown tool {req.tool}")
+    
     method = getattr(tool_obj, req.action, None)
     if method is None:
         raise HTTPException(status_code=400, detail=f"Unknown action {req.action} for tool {req.tool}")
@@ -51,3 +56,4 @@ def execute_tool(req: ToolRequest) -> Dict[str, Any]:
     except Exception as exc:  # noqa: BLE001
         logger.exception("Tool execution failure")
         raise HTTPException(status_code=500, detail=str(exc)) from exc
+
