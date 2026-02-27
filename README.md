@@ -1,4 +1,4 @@
-# Nova AI Assistant Backend
+# Nova AI Assistant Backend.
 
 Nova is a modular, production-ready AI assistant backend designed for website integration and standalone voice operation. It provides intelligent task orchestration, tool execution, and persistent memory.
 
